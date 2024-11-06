@@ -1,44 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _heightJump;
-    [SerializeField] private AudioClip _audioDead;
+    [SerializeField]
+    private float _heightJump;
+
+    [SerializeField]
+    private AudioClip _audioDead;
+
+    [SerializeField]
+    private AudioClip[] _jumpSounds;
+
     private bool _isJump;
+
     private bool _isDead;
+
     private Animator _anim;
+
     private Rigidbody2D _rig;
-    private AudioSource _audioJump;
+
     private AudioSource _audioSource;
 
-    void Start()
+    private int _jumpCounter;
+
+    private void Start()
     {
         _anim = GetComponent<Animator>();
         _rig = GetComponent<Rigidbody2D>();
         _isJump = false;
         _isDead = false;
-        _audioJump = GetComponent<AudioSource>();
-
-        _audioSource = gameObject.AddComponent<AudioSource>();
-        _audioSource.clip = _audioDead;
+        _audioSource = base.gameObject.AddComponent<AudioSource>();
     }
 
-    void Update()
+    private void Update()
     {
-        Jump();
+        if (!_isDead)
+        {
+            Jump();
+        }
         HandleAnimation();
     }
 
-    void OnCollisionEnter2D(Collision2D target)
+    private void OnCollisionEnter2D(Collision2D target)
     {
         if (target.gameObject.CompareTag("CMS"))
         {
             _isDead = true;
-            _anim.SetBool("Run", false);
+            _anim.SetBool("Run", value: false);
             _anim.SetTrigger("Dead");
-            _audioSource.Play();
+            PlayDeathSound();
         }
         else if (target.gameObject.CompareTag("Ground"))
         {
@@ -46,20 +56,35 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HandleAnimation()
+    private void HandleAnimation()
     {
         _anim.SetBool("Jump", _isJump);
         _anim.SetBool("Run", !_isJump && !_isDead);
     }
 
-    void Jump()
+    private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isJump && !_isDead)
+        if (Input.GetKeyDown(KeyCode.Space) && !_isJump)
         {
             _rig.velocity = new Vector2(0f, _heightJump);
             _isJump = true;
-            _audioJump.Play();
+            if (_jumpCounter == 3)
+            {
+                _audioSource.clip = _jumpSounds[1];
+            }
+            else
+            {
+                _audioSource.clip = _jumpSounds[0];
+            }
+            _audioSource.Play();
+            _jumpCounter = (_jumpCounter + 1) % 4;
         }
+    }
+
+    private void PlayDeathSound()
+    {
+        _audioSource.clip = _audioDead;
+        _audioSource.Play();
     }
 
     public bool IsDead()
@@ -67,3 +92,4 @@ public class Player : MonoBehaviour
         return _isDead;
     }
 }
+

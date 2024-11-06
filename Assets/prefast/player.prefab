@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 763eeb491ab8751478563f5da78d5fe9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -150,7 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _heightJump: 15
-  _audioDead: {fileID: 8300000, guid: 15ae314c233d53f47a6d09e49a307d72, type: 3}
+  _audioDead: {fileID: 8300000, guid: beac1758246e4914b85377e0ac50917c, type: 3}
+  _jumpSounds:
+  - {fileID: 8300000, guid: c07d4c069baeb594bbffed2e2e075531, type: 3}
+  - {fileID: 8300000, guid: 03d5cb6f49789ff4eaf53d03d3220bb4, type: 3}
 --- !u!61 &6667385818721009340
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -206,9 +209,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c07d4c069baeb594bbffed2e2e075531, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fab88cd8974da994e9450f52efa4bdf5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.098
   m_Pitch: 1
   Loop: 0
   Mute: 0
